@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FIVEWORDSV2\FIVEWORDSV2.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 using Xunit;
 using System.IO;
-using static 
+using static FiveWordFiveLetters.FiveWordFiveLetters;
 using System;
 
 public class TextFileTests
