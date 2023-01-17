@@ -6,128 +6,133 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace FiveWordFiveLetters
 {
     public static class FiveWordFiveLetters
     {
-        public static bool ContainsTwoSameLetters(string value)
+        private const int EXPECTED_LENGTH = 5;
+        public static void Main(string[] args)
         {
-            // Initialize an array of 26 integers with all elements set to 0
-            int[] charCounts = new int[26];
+            var words = LoadWords("5words.txt");
+            Solve(words);
+            Console.WriteLine("Number of solved words: " + count);
+        }
 
-            // Convert the input string to lower case
-            value = value.ToLower();
+        static List<string> LoadWords(string filename)
+        {
+            var words = new List<string>();
+            var file = new StreamReader(filename);
+            var seen = new HashSet<int>();
 
-            // Iterate through each character of the input string
-            for (int i = 0; i < value.Length; i++)
+            string word = null;
+            while ((word = file.ReadLine()) != null)
             {
-                char c = value[i];
-                // Check if the current character is a letter
-                if (c >= 'a' && c <= 'z')
+                if (word.Length != EXPECTED_LENGTH) continue;
+                var tmp = word.ToCharArray().OrderBy(c => c).ToArray();
+                bool bad_word = false;
+                for (int i = 0; i < 4; ++i)
                 {
-                    // Increment the count for the corresponding element in the charCounts array
-                    charCounts[c - 'a']++;
-                    // Check if the count for the current character is 2 or more
-                    if (charCounts[c - 'a'] >= 2)
+                    if (tmp[i] == tmp[i + 1])
                     {
-                        // Return true if it is
-                        return true;
+                        bad_word = true;
+                        break;
                     }
                 }
-            }
-            // Return false if no character occurs twice or more
-            return false;
-        }
-
-
-        static void Main(string[] args)
-        {
-            string filePath = "5WORDS.txt";
-            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-            FindUniqueCombinations(filePath);
-            stopWatch.Stop();
-
-        }
-
-        private static int ToNumber(char c)
-        {
-            return c - 'a';
-        }
-        private static int WordToMask(string word)
-        {
-            const int EXPECTED_LENGTH = 5;
-            if (word.Length != EXPECTED_LENGTH) return 0;
-            int result = 0;
-
-            foreach (char c in word)
-            {
-                int bit = 1 << ToNumber(c);
-                if ((result & bit) != 0) return 0; // a letter occurred twice
-                result |= bit;
-            }
-            return result;
-        }
-
-
-
-
-
-        public static void FindUniqueCombinations(string filePath)
-        {
-            string[] lines = File.ReadAllLines(filePath);
-            var result = new List<string>();
-            const int EXPECTED_LENGTH = 5;
-            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-            stopWatch.Start();
-            using (var reader = new StreamReader(filePath))
-            {
-                string word = null;
-                while ((word = reader.ReadLine()) != null)
+                if (bad_word) continue;
+                int hash = 0;
+                for (int i = 0; i < 5; ++i)
                 {
-                    if (word.Length != EXPECTED_LENGTH) continue;
-                    if (word.Distinct().Count() != word.Length) continue;
-                    if (result.Where(x => string.Concat(x, word).Distinct().Count() == 5).Count() > 0) continue;
-                    result.Add(word);
+                    hash = hash * 26 + tmp[i] - 'a';
                 }
-                Console.WriteLine($"Words from input:  {result.Count}\n");
+                if (seen.Contains(hash)) continue;
+                seen.Add(hash);
+                words.Add(word);
+
             }
+            return words;
 
-            int numberOfWords = 0;
+        }
+        static int count = 0;
+        static void OutputAllSets(List<bool[]> can_construct, List<string> words, List<int> masks, List<int> result, int mask, int start_from)
+        {
+            if (result.Count == 5)
+            {
+                for (int i = 0; i < 5; ++i)
+                {
+                    Console.Write(words[result[i]] + " ");
+                }
+                Console.WriteLine();
+                count++;
+                return;
 
-            for (int i = 0; i < result.Count; i++)
+            }
+            for (int cur_word = start_from; cur_word < words.Count; ++cur_word)
+            {
+                if (((mask & masks[cur_word]) == masks[cur_word]) && (result.Count == 4 || can_construct[3 - result.Count][mask ^ masks[cur_word]]))
+                {
+                    result.Add(cur_word);
+                    OutputAllSets(can_construct, words, masks, result, mask ^ masks[cur_word], cur_word + 1);
+                    result.RemoveAt(result.Count - 1);
+                }
+            }
+        }
+
+        static int Solve(List<string> words)
+        {
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var can_construct = new List<bool[]>();
+            for (int i = 0; i < 5; i++)
+            {
+                can_construct.Add(new bool[1 << 26]);
+            }
+            var masks = new List<int>();
+            for (int i = 0; i < words.Count; ++i)
+            {
+                Console.WriteLine(i);
+
+                int mask = 0;
+                foreach (var c in words[i])
+                {
+                    mask |= 1 << (c - 'a');
+                }
+                masks.Add(mask);
+                can_construct[0][mask] = true;
+            }
+            for (int cnt = 0; cnt < 4; ++cnt)
             {
 
-                for (int j = i + 1; j < result.Count; j++)
+                //And'ing bits 
+                for (int mask = 0; mask < (1 << 26); ++mask)
                 {
-                    if (string.Concat(result[i], result[j]).Distinct().Count() != 10) continue;
-                    for (int k = j + 1; k < result.Count; k++)
+                    if (!can_construct[cnt][mask]) continue;
+                    for (int i = 0; i < words.Count; ++i)
                     {
-                        if (string.Concat(result[i], result[j], result[k]).Distinct().Count() != 15) continue;
-
-                        for (int l = k + 1; l < result.Count; l++)
+                        if ((masks[i] & mask) == 0)
                         {
-                            if (string.Concat(result[i], result[j], result[k], result[l]).Distinct().Count() != 20) continue;
+                            can_construct[cnt + 1][masks[i] | mask] = true;
 
-                            for (int m = l + 1; m < result.Count; m++)
-                            {
-
-                                if (string.Concat(result[i], result[j], result[k], result[l], result[m]).Distinct().Count() != 25) continue;
-
-                                Console.WriteLine("\r{0} {1} {2} {3} {4}", result[i], result[j], result[k], result[l], result[m]);
-                                numberOfWords++;
-
-                            }
                         }
+
                     }
                 }
+                stopwatch.Stop();
             }
 
-            stopWatch.Stop();
 
-            Console.WriteLine("\nNumber of combinations: " + numberOfWords);
-
-            Console.WriteLine("Task was completed in " + stopWatch.Elapsed.TotalMilliseconds + " milliseconds");
+            var result = new List<int>();
+            for (int mask = 0; mask < (1 << 26); mask++)
+            {
+                if (can_construct[4][mask])
+                {
+                    OutputAllSets(can_construct, words, masks, result, mask, 0);
+                }
+            }
+            Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + "ms");
+            return count;
         }
     }
 }
