@@ -53,86 +53,101 @@ namespace FiveWordFiveLetters
             }
             return words;
 
-        }
-        static int count = 0;
-        static void OutputAllSets(List<bool[]> can_construct, List<string> words, List<int> masks, List<int> result, int mask, int start_from)
-        {
-            if (result.Count == 5)
-            {
-                for (int i = 0; i < 5; ++i)
-                {
-                    Console.Write(words[result[i]] + " ");
-                }
-                Console.WriteLine();
-                count++;
-                return;
 
-            }
-            for (int cur_word = start_from; cur_word < words.Count; ++cur_word)
-            {
-                if (((mask & masks[cur_word]) == masks[cur_word]) && (result.Count == 4 || can_construct[3 - result.Count][mask ^ masks[cur_word]]))
-                {
-                    result.Add(cur_word);
-                    OutputAllSets(can_construct, words, masks, result, mask ^ masks[cur_word], cur_word + 1);
-                    result.RemoveAt(result.Count - 1);
-                }
-            }
+        static void Main(string[] args)
+        {
+            string filePath = "5WORDS.txt";
+            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
+            FindUniqueCombinations(filePath);
+            stopWatch.Stop();
+
         }
 
-        static int Solve(List<string> words)
+        private static int ToNumber(char c)
         {
+            return c - 'a';
+        }
+        private static int WordToMask(string word)
+        {
+            const int EXPECTED_LENGTH = 5;
+            if (word.Length != EXPECTED_LENGTH) return 0;
+            int result = 0;
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var can_construct = new List<bool[]>();
-            for (int i = 0; i < 5; i++)
+            foreach (char c in word)
             {
-                can_construct.Add(new bool[1 << 26]);
+                int bit = 1 << ToNumber(c);
+                if ((result & bit) != 0) return 0; // a letter occurred twice
+                result |= bit;
             }
-            var masks = new List<int>();
-            for (int i = 0; i < words.Count; ++i)
+            return result;
+        }
+
+
+
+
+
+        public static void FindUniqueCombinations(string filePath)
+        {
+            string[] lines = File.ReadAllLines(filePath);
+            var result = new List<string>();
+            const int EXPECTED_LENGTH = 5;
+            var stopWatch = System.Diagnostics.Stopwatch.StartNew();
+            stopWatch.Start();
+            using (var reader = new StreamReader(filePath))
             {
                 Console.WriteLine(i);
 
                 int mask = 0;
                 foreach (var c in words[i])
                 {
-                    mask |= 1 << (c - 'a');
+                    if (word.Length != EXPECTED_LENGTH) continue;
+                    if (word.Distinct().Count() != word.Length) continue;
+                    if (result.Where(x => string.Concat(x, word).Distinct().Count() == 5).Count() > 0) continue;
+                    result.Add(word);
                 }
-                masks.Add(mask);
-                can_construct[0][mask] = true;
+                Console.WriteLine($"Words from input:  {result.Count}\n");
             }
-            for (int cnt = 0; cnt < 4; ++cnt)
+
+            int numberOfWords = 0;
+
+            for (int i = 0; i < result.Count; i++)
             {
 
-                //And'ing bits 
-                for (int mask = 0; mask < (1 << 26); ++mask)
+                for (int j = i + 1; j < result.Count; j++)
                 {
-                    if (!can_construct[cnt][mask]) continue;
-                    for (int i = 0; i < words.Count; ++i)
+                    if (string.Concat(result[i], result[j]).Distinct().Count() != 10) continue;
+                    for (int k = j + 1; k < result.Count; k++)
                     {
-                        if ((masks[i] & mask) == 0)
+                        if (string.Concat(result[i], result[j], result[k]).Distinct().Count() != 15) continue;
+
+                        for (int l = k + 1; l < result.Count; l++)
                         {
-                            can_construct[cnt + 1][masks[i] | mask] = true;
+                            if (string.Concat(result[i], result[j], result[k], result[l]).Distinct().Count() != 20) continue;
 
+                            for (int m = l + 1; m < result.Count; m++)
+                            {
+
+                                if (string.Concat(result[i], result[j], result[k], result[l], result[m]).Distinct().Count() != 25) continue;
+
+                                Console.WriteLine("\r{0} {1} {2} {3} {4}", result[i], result[j], result[k], result[l], result[m]);
+                                numberOfWords++;
+
+                            }
                         }
-
                     }
                 }
                 stopwatch.Stop();
             }
 
+            stopWatch.Stop();
 
-            var result = new List<int>();
-            for (int mask = 0; mask < (1 << 26); mask++)
-            {
-                if (can_construct[4][mask])
-                {
-                    OutputAllSets(can_construct, words, masks, result, mask, 0);
-                }
-            }
-            Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + "ms");
-            return count;
+            Console.WriteLine("\nNumber of combinations: " + numberOfWords);
+
+            Console.WriteLine("Task was completed in " + stopWatch.Elapsed.TotalMilliseconds + " milliseconds");
         }
+
     }
+
+
 }
+
