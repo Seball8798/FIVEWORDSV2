@@ -10,6 +10,8 @@
   <ItemGroup>
     <None Remove="Dosis.zip" />
     <None Remove="Fonts\Dosis.ttf" />
+    <None Remove="images\Buttons.jpg" />
+    <None Remove="images\Buttons.png" />
     <None Remove="images\INPUT.png" />
     <None Remove="images\OUTPUT.png" />
   </ItemGroup>
@@ -17,6 +19,7 @@
   <ItemGroup>
     <Resource Include="Dosis.zip" />
     <Resource Include="Fonts\Dosis.ttf" />
+    <Resource Include="images\Buttons.png" />
     <Resource Include="images\INPUT.png" />
     <Resource Include="images\OUTPUT.png" />
   </ItemGroup>
