@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dosis.zip" />
+    <None Remove="Fonts\Dosis.ttf" />
+    <None Remove="images\INPUT.png" />
+    <None Remove="images\OUTPUT.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Dosis.zip" />
+    <Resource Include="Fonts\Dosis.ttf" />
+    <Resource Include="images\INPUT.png" />
+    <Resource Include="images\OUTPUT.png" />
+  </ItemGroup>
+
+</Project>

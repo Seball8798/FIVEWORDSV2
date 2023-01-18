@@ -1,0 +1,110 @@
+﻿<Window x:Class="FiveWordsV2WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FiveWordsV2WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" ResizeMode="NoResize" Height="450" Width="645" Background="#FF641212">
+    <Grid Background="#8D99AE" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="#8D99AE" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Foreground="Black" FontWeight="DemiBold" VerticalAlignment="Center" FontSize="16" Padding="4" FontFamily="fonts/#Dosis" OpacityMask="Black">
+                <TextBlock.Style>
+                    <Style/>
+                </TextBlock.Style>
+                <TextBlock>
+                </TextBlock>Five Words Five Letters</TextBlock>
+
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <!-- Gross -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="583*"/>
+                <ColumnDefinition Width="62*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1">
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="12"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="2" >
+                    <Button VerticalAlignment="Center" Margin="120,0,0,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="images\input.png" ></Image>
+                    </Button>
+                    <Button  VerticalAlignment="Center" Margin="0,0,120,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="/images/OUTPUT.png" />
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <TextBlock x:Name="ProgressDisplay" FontFamily="fonts/#Dosis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" Foreground="Black" FontSize="24" Margin="0,25,0,0">
+                        <TextBlock>
+                        </TextBlock>0/100</TextBlock>
+                    <ProgressBar x:Name="ProgressBar" Foreground="#0D1821"  Value="0" Height="25" Width="215"  BorderThickness="1" VerticalAlignment="Bottom"  >
+
+                        <ProgressBar.Effect>
+                            <DropShadowEffect/>
+                        </ProgressBar.Effect>
+                        <ProgressBar.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF523238"/>
+                                <GradientStop Color="#FF6B1B29" Offset="0"/>
+                                <GradientStop Color="#FF6B1B29" Offset="1"/>
+                                <GradientStop Color="#FFAF868E" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Background>
+                    </ProgressBar>
+                </Grid>
+                <TextBox x:Name="WordDisplayLog"  TextAlignment="Center" Background="#EDF2F4" Foreground="#0D1821" Grid.Row="5" BorderBrush="#FF3E3E3E"/>
+                <Label Name="OutPut" Grid.Row="5" Content="Output:" HorizontalContentAlignment="Center" FontWeight="SemiBold" FontSize="20">
+                </Label>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

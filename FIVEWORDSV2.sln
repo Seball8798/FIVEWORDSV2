@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIVEWORDSV2", "FIVEWORDSV2\FIVEWORDSV2.csproj", "{61B11D94-8A00-4F35-A270-CFC88A274230}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIVEWORDSV2", "FIVEWORDSV2\FIVEWORDSV2.csproj", "{61B11D94-8A00-4F35-A270-CFC88A274230}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiveWordsTest", "FiveWordsTest\FiveWordsTest.csproj", "{9560FD5B-0D1F-45D0-AC7C-8BECF46DF1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiveWordsTest", "FiveWordsTest\FiveWordsTest.csproj", "{9560FD5B-0D1F-45D0-AC7C-8BECF46DF1FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiveWordsV2WPF", "FiveWordsV2WPF\FiveWordsV2WPF.csproj", "{A1556476-4C77-4C32-AA21-3C71918F777C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9560FD5B-0D1F-45D0-AC7C-8BECF46DF1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9560FD5B-0D1F-45D0-AC7C-8BECF46DF1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9560FD5B-0D1F-45D0-AC7C-8BECF46DF1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1556476-4C77-4C32-AA21-3C71918F777C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1556476-4C77-4C32-AA21-3C71918F777C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1556476-4C77-4C32-AA21-3C71918F777C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1556476-4C77-4C32-AA21-3C71918F777C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

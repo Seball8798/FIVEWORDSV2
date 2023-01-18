@@ -7,10 +7,14 @@ using System.Diagnostics;
 class MainClass
 {
     private const int EXPECTED_LENGTH = 5;
+    static int count = 0;
+
     public static void Main(string[] args)
     {
-        var words = LoadWords("Words_alpha.txt");
+        var words = LoadWords("5words.txt");
+
         Solve(words);
+
         Console.WriteLine("Number of solved words: " + count);
     }
 
@@ -31,6 +35,7 @@ class MainClass
                 if (tmp[i] == tmp[i + 1])
                 {
                     bad_word = true;
+
                     break;
                 }
             }
@@ -39,6 +44,7 @@ class MainClass
             for (int i = 0; i < 5; ++i)
             {
                 hash = hash * 26 + tmp[i] - 'a';
+
             }
             if (seen.Contains(hash)) continue;
             seen.Add(hash);
@@ -48,14 +54,15 @@ class MainClass
         return words;
 
     }
-    static int count = 0;
     static void OutputAllSets(List<bool[]> can_construct, List<string> words, List<int> masks, List<int> result, int mask, int start_from)
     {
         if (result.Count == 5)
         {
             for (int i = 0; i < 5; ++i)
             {
+
                 Console.Write(words[result[i]] + " ");
+
             }
             Console.WriteLine();
             count++;
@@ -75,6 +82,7 @@ class MainClass
 
     static int Solve(List<string> words)
     {
+
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         var can_construct = new List<bool[]>();
@@ -101,8 +109,10 @@ class MainClass
                 if (!can_construct[cnt][mask]) continue;
                 for (int i = 0; i < words.Count; ++i)
                 {
+
                     if ((masks[i] & mask) == 0)
                     {
+
                         can_construct[cnt + 1][masks[i] | mask] = true;
 
                     }
@@ -113,12 +123,17 @@ class MainClass
         }
 
 
+
         var result = new List<int>();
+
         for (int mask = 0; mask < (1 << 26); mask++)
         {
+
             if (can_construct[4][mask])
             {
+
                 OutputAllSets(can_construct, words, masks, result, mask, 0);
+
             }
         }
         Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + "ms");
