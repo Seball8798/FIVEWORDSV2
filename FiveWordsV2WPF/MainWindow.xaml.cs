@@ -31,16 +31,17 @@ namespace FiveWordsV2WPF
         }
         private void Loadprogressbar()
         {
+            ProgressBar.Value = 0;
             ProgressBar.Maximum = 100;
 
             Duration duration = new Duration(TimeSpan.FromSeconds(2));
-            DoubleAnimation dblanim = new DoubleAnimation(ProgressBar.Maximum, duration);
+            DoubleAnimation dblanim = new DoubleAnimation(100, duration);
             
             ProgressBar.ValueChanged += (s, e) =>
             {
                 if (ProgressBar.Value == 100)
                 {
-                    
+                    return;
                 }
             };
             ProgressBar.BeginAnimation(ProgressBar.ValueProperty, dblanim);
@@ -64,8 +65,10 @@ namespace FiveWordsV2WPF
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".text"; // Default file extension
             saveFileDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-            saveFileDialog.FileName = "hej";
+            saveFileDialog.FileName = "hej.txt";
             if (saveFileDialog.ShowDialog() == true)
+                saveFileDialog.DefaultExt = ".txt"; ;
+
             saveFileDialog.InitialDirectory = @"c:\documents\";
 ;            File.WriteAllText(saveFileDialog.FileName, hej);
         }
