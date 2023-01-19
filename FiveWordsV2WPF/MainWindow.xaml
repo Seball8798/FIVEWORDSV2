@@ -123,8 +123,8 @@
                     </Button>
                 </Grid>
                 <Grid Grid.Row="5" Margin="5,5,5,16" Height="100">
-                    <TextBox x:Name="WordDisplayLog"  TextAlignment="Center" Background="#354660" Foreground="#F3FAFF" Grid.Row="5" BorderBrush="#EDF2F4"/>
-                    <Label Name="OutPut"  Content="Output:" HorizontalContentAlignment="Center" FontWeight="Medium" FontSize="20" Foreground="#F3FAFF"/>
+                    <TextBox x:Name="WordDisplayLog"  TextAlignment="Left" Background="#354660" Foreground="#F3FAFF" Grid.Row="5" BorderBrush="#EDF2F4"/>
+                    <Label Name="OutPut"  Content="Output:" HorizontalContentAlignment="Center" FontWeight="Medium" FontSize="20" Foreground="#F3FAFF" Margin="-10"/>
                 </Grid>
             </Grid>
         </Grid>

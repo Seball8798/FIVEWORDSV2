@@ -24,7 +24,7 @@ class MainClass
         var file = new StreamReader(filename);
         var seen = new HashSet<int>();
 
-        string word = null;
+        string? word = null;
         while ((word = file.ReadLine()) != null)
         {
             if (word.Length != EXPECTED_LENGTH) continue;
@@ -80,7 +80,7 @@ class MainClass
         }
     }
 
-    static int Solve(List<string> words)
+    public static int Solve(List<string> words)
     {
 
         var stopwatch = new Stopwatch();

@@ -46,31 +46,46 @@ namespace FiveWordsV2WPF
             };
             ProgressBar.BeginAnimation(ProgressBar.ValueProperty, dblanim);
         }
-        private void PlayButtonClick(object sender, RoutedEventArgs e)
-        {
-            Loadprogressbar();
-        }
+
+        public static string word = fiveWordsWpfLibary.word;
+        public static string AllCombinations = fiveWordsWpfLibary.AllCombinations;
 
         private void InputFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-                File.ReadAllText(openFileDialog.FileName);
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "txt files (*.txt)|*.txt"
+            };
+
+            var hasSelectedFile = openFileDialog.ShowDialog() == true;
+            if (hasSelectedFile)
+            {
+                WordDisplayLog.Text = "Current File: " + openFileDialog.SafeFileName;
+                WordDisplayLog.Visibility = Visibility.Visible;
+                word = openFileDialog.FileName;
+            }
+        }
+
+        public void PlayButtonClick(object sender, RoutedEventArgs e)
+        {
+            var words = fiveWordsWpfLibary.LoadWords(word);
+            Loadprogressbar();
         }
 
         private void OutputFile_Click(object sender, RoutedEventArgs e)
         {
-            string hej = "fgsdfs";
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".text"; // Default file extension
             saveFileDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-            saveFileDialog.FileName = "hej.txt";
-            if (saveFileDialog.ShowDialog() == true)
-                saveFileDialog.DefaultExt = ".txt"; ;
-
+            saveFileDialog.FileName = "Output.txt";
             saveFileDialog.InitialDirectory = @"c:\documents\";
-;            File.WriteAllText(saveFileDialog.FileName, hej);
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                StreamWriter writer = new StreamWriter(saveFileDialog.OpenFile());
+                writer.Write(fiveWordsWpfLibary.AllCombinations);
+                writer.Close(); 
+            }
         }
     }
 }
