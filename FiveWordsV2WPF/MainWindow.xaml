@@ -65,29 +65,36 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="2" >
-                    <Button VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD" Margin="120,0,0,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                    <Button Click="OutputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"   Margin="120,0,0,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
-                        <Image Source="images\input.png" ></Image>
+                        <Image Source="images\Output.png" ></Image>
                     </Button>
-                    <Button  VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD" Margin="0,0,120,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                    <Button Click="InputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"  Margin="0,0,120,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
-                        <Image Source="/images/OUTPUT.png" />
+                        <Image Source="images\input.png" />
                     </Button>
                 </Grid>
 
                 <Grid Grid.Row="1">
-                    <TextBlock x:Name="ProgressDisplay" FontFamily="fonts/#Dosis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium" Foreground="Black" FontSize="24" Margin="0,25,0,0">
-                        <TextBlock>
+                    <TextBlock x:Name="ProgressDisplay" FontFamily="fonts/#Dosis" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium" Foreground="#F3FAFF" FontSize="24" Margin="0,25,0,0">
+                        <TextBlock >
+                            
                         </TextBlock>0/100</TextBlock>
-                    <ProgressBar x:Name="ProgressBar" Foreground="#0D1821"  Value="0" Height="25" Width="215"  BorderThickness="1" VerticalAlignment="Top" Margin="215,79,215,0"  >
+                    <ProgressBar x:Name="ProgressBar"  Value="0" Height="25" Width="215"  BorderThickness="1" VerticalAlignment="Top" Margin="215,79,215,0" >
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+
+                                
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
 
                         <ProgressBar.Effect>
                             <DropShadowEffect/>
@@ -106,18 +113,18 @@
                     </ProgressBar>
                 </Grid>
                 <Grid Grid.Row="4" Margin="0,-5,0,0" Background="#354660" >
-                    <Button Background="#354660" BorderBrush="#354660" Width="100" Height="60" Margin="0,0,0,10">
+                    <Button Click="PlayButtonClick" Background="#354660" BorderBrush="#354660" Width="100" Height="60" Margin="0,0,0,10">
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="35"/>
                             </Style>
                         </Button.Resources>
-                        <Image Source="images\Buttons.png" Width="100" Height="55" > </Image>
+                        <Image Source="images\Buttons.png" Width="100" Height="55" ></Image>
                     </Button>
                 </Grid>
                 <Grid Grid.Row="5" Margin="5,5,5,16" Height="100">
                     <TextBox x:Name="WordDisplayLog"  TextAlignment="Center" Background="#354660" Foreground="#F3FAFF" Grid.Row="5" BorderBrush="#EDF2F4"/>
-                    <Label Name="OutPut"  Content="Output:" HorizontalContentAlignment="Center" FontWeight="Medium" FontSize="20"/>
+                    <Label Name="OutPut"  Content="Output:" HorizontalContentAlignment="Center" FontWeight="Medium" FontSize="20" Foreground="#F3FAFF"/>
                 </Grid>
             </Grid>
         </Grid>
