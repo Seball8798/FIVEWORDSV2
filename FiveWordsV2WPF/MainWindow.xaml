@@ -65,7 +65,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="2" >
-                    <Button Click="OutputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"   Margin="120,0,0,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                    <Button x:Name="OutputFile" Click="OutputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"   Margin="120,0,0,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="5"/>
@@ -73,7 +73,8 @@
                         </Button.Resources>
                         <Image Source="images\Output.png" ></Image>
                     </Button>
-                    <Button Click="InputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"  Margin="0,0,120,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                    <Button x:Name="InputFile" Click="InputFile_Click" VerticalAlignment="Center" Background="#354660" BorderBrush="#A3ABBD"  Margin="0,0,120,0" Width="95" Height="25" MinHeight="25" MaxHeight="25" MinWidth="95" MaxWidth="95">
+                        
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="5"/>
@@ -88,7 +89,7 @@
                         <TextBlock >
                             
                         </TextBlock>0/100</TextBlock>
-                    <ProgressBar x:Name="ProgressBar"  Value="0" Height="25" Width="215"  BorderThickness="1" VerticalAlignment="Top" Margin="215,79,215,0" >
+                    <ProgressBar x:Name="ProgressBar"  Value="0" Height="25" Width="215"  BorderThickness="1" VerticalAlignment="Top" Margin="215,79,215,0" ValueChanged="ProgressBar_ValueChanged" >
                         <ProgressBar.Foreground>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF395FFC" Offset="1"/>
@@ -113,7 +114,7 @@
                     </ProgressBar>
                 </Grid>
                 <Grid Grid.Row="4" Margin="0,-5,0,0" Background="#354660" >
-                    <Button Click="PlayButtonClick" Background="#354660" BorderBrush="#354660" Width="100" Height="60" Margin="0,0,0,10">
+                    <Button x:Name="PlayButton" Click="PlayButtonClick" Background="#354660" BorderBrush="#354660" Width="100" Height="60" Margin="0,0,0,10">
                         <Button.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="35"/>

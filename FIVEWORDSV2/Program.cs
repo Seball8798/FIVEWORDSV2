@@ -7,6 +7,7 @@ using System.Diagnostics;
 class MainClass
 {
     private const int EXPECTED_LENGTH = 5;
+    public static string? AllCombinations;
     static int count = 0;
 
     public static void Main(string[] args)
@@ -54,14 +55,15 @@ class MainClass
         return words;
 
     }
-    static void OutputAllSets(List<bool[]> can_construct, List<string> words, List<int> masks, List<int> result, int mask, int start_from)
+     static void OutputAllSets(List<bool[]> can_construct, List<string> words, List<int> masks, List<int> result, int mask, int start_from)
     {
         if (result.Count == 5)
         {
             for (int i = 0; i < 5; ++i)
             {
+                AllCombinations = words[result[i]];
 
-                Console.Write(words[result[i]] + " ");
+                Console.Write(AllCombinations + " ");
 
             }
             Console.WriteLine();

@@ -3,15 +3,17 @@
 namespace FiveWordsWpfLibary
 {
 
-    public static class fiveWordsWpfLibary
+    public static class FiveWordsWpfLibaryClass
     {
         public static string? word;
-        public static string? AllCombinations;
+        public static List<string> AllCombinations = new List<string>();
 
 
         private const int EXPECTED_LENGTH = 5;
         public static int count = 0;
-       public static List<string> LoadWords(string filename)
+        public static int currentProgress = 0;
+
+        public static List<string> LoadWords(string filename)
         {
             var words = new List<string>();
             var file = new StreamReader(filename);
@@ -50,12 +52,12 @@ namespace FiveWordsWpfLibary
         {
             if (result.Count == 5)
             {
+                string combination = "";
                 for (int i = 0; i < 5; ++i)
                 {
-                    AllCombinations = words[result[i]];
-                    Console.Write(words[result[i]] + " ");
-
+                    combination += words[result[i]] + " ";
                 }
+                AllCombinations.Add(combination);
                 Console.WriteLine();
                 count++;
                 return;
@@ -108,7 +110,7 @@ namespace FiveWordsWpfLibary
                             can_construct[cnt + 1][masks[i] | mask] = true;
 
                         }
-
+                        currentProgress++;
                     }
                 }
                 stopwatch.Stop();
@@ -128,6 +130,11 @@ namespace FiveWordsWpfLibary
             }
             Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + "ms");
             return count;
+            //progressCallback(count / words.Count);
+        }
+        private static void UpdateProgress(double progress)
+        {
+            //ProgressBar.Value = progress;
         }
     }
 }

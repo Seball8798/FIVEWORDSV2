@@ -1,22 +1,13 @@
-﻿using System;
+﻿using FiveWordsWpfLibary;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FiveWordsWpfLibary;
-using Microsoft.Win32;
+using System.Windows.Threading;
 
 namespace FiveWordsV2WPF
 {
@@ -25,67 +16,88 @@ namespace FiveWordsV2WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int countSolvedWords = 0;
+        private List<string> words;
+        public List<string> solvedWords;
+        private Stopwatch stopwatch;
+        private DispatcherTimer progressTimer;
         public MainWindow()
         {
             InitializeComponent();
+            stopwatch = new Stopwatch();
         }
         private void Loadprogressbar()
         {
-            ProgressBar.Value = 0;
-            ProgressBar.Maximum = 100;
-
-            Duration duration = new Duration(TimeSpan.FromSeconds(2));
-            DoubleAnimation dblanim = new DoubleAnimation(100, duration);
-            
-            ProgressBar.ValueChanged += (s, e) =>
-            {
-                if (ProgressBar.Value == 100)
-                {
-                    return;
-                }
-            };
-            ProgressBar.BeginAnimation(ProgressBar.ValueProperty, dblanim);
+            //ProgressBar.Value = 0;
+            //countSolvedWords = FiveWordsWpfLibaryClass.Solve(words);
+            //solvedWords = FiveWordsWpfLibaryClass.AllCombinations;
         }
 
-        public static string word = fiveWordsWpfLibary.word;
-        public static string AllCombinations = fiveWordsWpfLibary.AllCombinations;
-
+        public static List<string> AllCombinations = FiveWordsWpfLibaryClass.AllCombinations;
+        public static bool FileIsChosed = false;
         private void InputFile_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog()
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog.DefaultExt = ".text"; // Default file extension
+            if (openFileDialog.ShowDialog() == true)
             {
-                Filter = "txt files (*.txt)|*.txt"
-            };
-
-            var hasSelectedFile = openFileDialog.ShowDialog() == true;
-            if (hasSelectedFile)
-            {
-                WordDisplayLog.Text = "Current File: " + openFileDialog.SafeFileName;
-                WordDisplayLog.Visibility = Visibility.Visible;
-                word = openFileDialog.FileName;
+                 words = FiveWordsWpfLibaryClass.LoadWords(openFileDialog.FileName);
+                 FileIsChosed = true;
             }
+            InputFile.Content = "Input File";
+
+
         }
 
-        public void PlayButtonClick(object sender, RoutedEventArgs e)
+        private void PlayButtonClick(object sender, RoutedEventArgs e)
         {
-            var words = fiveWordsWpfLibary.LoadWords(word);
-            Loadprogressbar();
+            // Must choose file before doing work
+            if (FileIsChosed)
+            {
+                Loadprogressbar();
+                PlayButton.Content = "Run Solved Words";
+                stopwatch.Start();
+                countSolvedWords = FiveWordsWpfLibaryClass.Solve(words);
+
+                solvedWords = FiveWordsWpfLibaryClass.AllCombinations;
+            }
+            else
+            {
+                MessageBox.Show("Please Select a file! "); 
+            }
+
         }
 
         private void OutputFile_Click(object sender, RoutedEventArgs e)
         {
-
+            // Code to save output goes here
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".text"; // Default file extension
             saveFileDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             saveFileDialog.FileName = "Output.txt";
-            saveFileDialog.InitialDirectory = @"c:\documents\";
             if (saveFileDialog.ShowDialog() == true)
             {
+                OutputFile.Content = "Save Output";
+                OutputFile.Click += OutputFile_Click;
+                //int solvedWords = FiveWordsWpfLibaryClass.Solve(words);
                 StreamWriter writer = new StreamWriter(saveFileDialog.OpenFile());
-                writer.Write(fiveWordsWpfLibary.AllCombinations);
+                writer.WriteLine("Number of solved words: " + countSolvedWords);
+                writer.WriteLine("Elapsed time: " + stopwatch.Elapsed.Milliseconds + "ms");
+                foreach (var solvedWord in solvedWords)
+                {
+                    writer.WriteLine(solvedWord);
+                }
+                stopwatch.Stop();
                 writer.Close(); 
             }
+        }
+
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }
